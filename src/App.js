@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Notification from './components/Notification'
+import { Notification, style } from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -45,13 +45,15 @@ const App = () => {
       window.localStorage.setItem('loggedappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       const blogs = await blogService.getAll()
+      style.color = 'green'
       showMessage(`${user.username} has just logged in`)
       setBlogs(blogs)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log(exception)
+      style.color = 'red'
+      showMessage('Wrong username or password')
     }
   }
 
@@ -140,7 +142,7 @@ const App = () => {
       {user === null ?
         loginForm() :
         <div>
-          <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+          <p>{user.username} logged in <button onClick={handleLogout}>logout</button></p>
           {createForm()}
         </div>
       }

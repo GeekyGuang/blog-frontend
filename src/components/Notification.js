@@ -15,4 +15,4 @@ const Notification = ({ message }) => (
   </div>
 )
 
-export default Notification
+export { Notification, style }
