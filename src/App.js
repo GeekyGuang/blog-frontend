@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +14,7 @@ const App = () => {
     'author': '',
     'url': ''
   })
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedappUser')
@@ -26,6 +28,13 @@ const App = () => {
     }
   }, [])
 
+  const showMessage = (newMessage) => {
+    setMessage(newMessage)
+    setTimeout(() => {
+      setMessage('')
+    }, 5000)
+  }
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -36,6 +45,7 @@ const App = () => {
       window.localStorage.setItem('loggedappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       const blogs = await blogService.getAll()
+      showMessage(`${user.username} has just logged in`)
       setBlogs(blogs)
       setUser(user)
       setUsername('')
@@ -105,6 +115,7 @@ const App = () => {
     try {
       const newBlog = await blogService.create(blog)
       setBlogs(blogs.concat(newBlog))
+      showMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
     } catch (error) {
       console.log(error)
     }
@@ -124,6 +135,7 @@ const App = () => {
 
   return (
     <div>
+      {message !== '' && <Notification message={message} />}
       <h2>blogs</h2>
       {user === null ?
         loginForm() :
