@@ -8,6 +8,11 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [blog, setBlog] = useState({
+    'title': '',
+    'author': '',
+    'url': ''
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedappUser')
@@ -44,16 +49,80 @@ const App = () => {
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-      username: <input type='text' name='username' onChange={({ target }) => setUsername(target.value)} />
-      password: <input type='password' name='password' onChange={(event) => setPassword(event.target.value)} />
+      username:
+      <input
+        type='text'
+        value={username}
+        name='username'
+        onChange={({ target }) => setUsername(target.value)} />
+      password:
+      <input
+        type='password'
+        value={password}
+        name='password'
+        onChange={(event) => setPassword(event.target.value)} />
       <button type='submit'>login</button>
     </form>
   )
 
+  const createForm = () => (
+    <>
+      <h2>create new</h2>
+      <form onSubmit={createBlog}>
+        <p>
+          title:
+          <input
+            type='text'
+            value={blog.title}
+            name='title'
+            onChange={({ target }) => { setBlog({ ...blog, 'title': target.value }) }} />
+        </p>
+        <p>
+          author:
+          <input
+            type='text'
+            value={blog.author}
+            name='author'
+            onChange={({ target }) => { setBlog({ ...blog, 'author': target.value }) }} />
+        </p>
+        <p>
+          url:
+          <input
+            type='text'
+            value={blog.url}
+            name='url'
+            onChange={({ target }) => { setBlog({ ...blog, 'url': target.value }) }} />
+        </p>
+        <button type='submit'>create</button>
+      </form>
+    </>
+  )
+
+  const createBlog = () => {
+    try {
+      blogService.create(blog)
+    } catch (error) {
+      console.log(error)
+    }
+
+    setBlog({
+      'title': '',
+      'author': '',
+      'url': ''
+    })
+  }
+
   return (
     <div>
-      {user === null && loginForm()}
       <h2>blogs</h2>
+      {user === null ?
+        loginForm() :
+        <div>
+          <p>{user.name} logged in</p>
+          {createForm()}
+        </div>
+      }
+      <hr />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
