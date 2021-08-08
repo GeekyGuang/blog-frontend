@@ -98,9 +98,11 @@ const App = () => {
     </>
   )
 
-  const createBlog = () => {
+  const createBlog = async (event) => {
+    event.preventDefault()
     try {
-      blogService.create(blog)
+      const newBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(newBlog))
     } catch (error) {
       console.log(error)
     }
