@@ -4,7 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import { Notification, style } from './components/Notification'
 import Toggable from './components/Toggable'
-import CreateForm from './components/CreateForm'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -78,7 +78,7 @@ const App = () => {
 
   const createForm = () => (
     <Toggable buttonValue={'create blog'}>
-      <CreateForm blogService={blogService} blogs={blogs} setBlogs={setBlogs} showMessage={showMessage} />
+      <BlogForm blogService={blogService} blogs={blogs} setBlogs={setBlogs} showMessage={showMessage} />
     </Toggable>
   )
 
