@@ -88,6 +88,17 @@ const App = () => {
     setBlogs([])
   }
 
+  const removeBlog = async (blog) => {
+    try {
+      if (window.confirm('do your wanna delete this blog?')) {
+        await blogService.deleteBlog(blog.id)
+        setBlogs(blogs.filter(item => item.id !== blog.id))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
       {message !== '' && <Notification message={message} />}
@@ -101,7 +112,7 @@ const App = () => {
       }
       <hr />
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} removeBlog={removeBlog} />
       )}
     </div>
   )
