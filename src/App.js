@@ -3,17 +3,14 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { Notification, style } from './components/Notification'
+import Toggable from './components/Toggable'
+import CreateForm from './components/CreateForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [blog, setBlog] = useState({
-    'title': '',
-    'author': '',
-    'url': ''
-  })
   const [message, setMessage] = useState('')
 
   useEffect(() => {
@@ -80,54 +77,10 @@ const App = () => {
   )
 
   const createForm = () => (
-    <>
-      <h2>create new</h2>
-      <form onSubmit={createBlog}>
-        <p>
-          title:
-          <input
-            type='text'
-            value={blog.title}
-            name='title'
-            onChange={({ target }) => { setBlog({ ...blog, 'title': target.value }) }} />
-        </p>
-        <p>
-          author:
-          <input
-            type='text'
-            value={blog.author}
-            name='author'
-            onChange={({ target }) => { setBlog({ ...blog, 'author': target.value }) }} />
-        </p>
-        <p>
-          url:
-          <input
-            type='text'
-            value={blog.url}
-            name='url'
-            onChange={({ target }) => { setBlog({ ...blog, 'url': target.value }) }} />
-        </p>
-        <button type='submit'>create</button>
-      </form>
-    </>
+    <Toggable buttonValue={'create blog'}>
+      <CreateForm blogService={blogService} blogs={blogs} setBlogs={setBlogs} showMessage={showMessage} />
+    </Toggable>
   )
-
-  const createBlog = async (event) => {
-    event.preventDefault()
-    try {
-      const newBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(newBlog))
-      showMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
-    } catch (error) {
-      console.log(error)
-    }
-
-    setBlog({
-      'title': '',
-      'author': '',
-      'url': ''
-    })
-  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedappUser')
