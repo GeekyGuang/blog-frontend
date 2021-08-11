@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
 const Toggable = (props) => {
@@ -22,6 +23,10 @@ const Toggable = (props) => {
 
     </div>
   )
+}
+
+Toggable.propTypes = {
+  buttonValue: PropTypes.string.isRequired
 }
 
 export default Toggable
