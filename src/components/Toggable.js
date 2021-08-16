@@ -20,13 +20,12 @@ const Toggable = (props) => {
         {props.children}
         <button onClick={toggleVisibility}>cancel</button>
       </div>
-
     </div>
   )
 }
 
 Toggable.propTypes = {
-  buttonValue: PropTypes.string.isRequired
+  buttonValue: PropTypes.string.isRequired,
 }
 
 export default Toggable
