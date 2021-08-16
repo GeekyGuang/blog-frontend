@@ -17,6 +17,9 @@ test('renders content', () => {
   const div = component.container.querySelector('.blog')
 
   expect(div).toHaveTextContent('hhhhhhh')
+
+  const divDetail = component.container.querySelector('.blogDetail')
+  expect(divDetail).toHaveStyle('display: none')
   // expect(div).not.toHaveTextContent('likes')
 })
 

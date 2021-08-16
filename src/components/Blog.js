@@ -40,7 +40,7 @@ const Blog = ({ blog, removeBlog }) => {
         {_blog.title} {_blog.author}{' '}
         <button onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
-      <div style={showStyle}>
+      <div style={showStyle} className="blogDetail">
         <div>{_blog.url}</div>
         <div>
           likes {_blog.likes} <button onClick={updateLikes}>like</button>
